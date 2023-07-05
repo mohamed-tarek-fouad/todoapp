@@ -26,15 +26,20 @@ export class TodosController {
   @UseGuards(JwtAuthGuard)
   updateTodo(
     @Body() updateTodoDto: UpdateTodoDto,
-    @Param() id: string,
+    @Param("id") id: string,
     @Req() req,
   ) {
     return this.todosService.updateTodo(updateTodoDto, id, req);
   }
   @UseGuards(JwtAuthGuard)
   @Get("allTodos")
-  allUsers(@Query() take: string, @Query() skip: string, @Req() req) {
-    return this.todosService.allTodos(take, skip, req);
+  allUsers(
+    @Query("take") take: string,
+    @Query("skip") skip: string,
+    @Req() req,
+    @Query("searsh") searsh: string,
+  ) {
+    return this.todosService.allTodos(take, skip, req, searsh);
   }
   @Get(":id")
   @UseGuards(JwtAuthGuard)

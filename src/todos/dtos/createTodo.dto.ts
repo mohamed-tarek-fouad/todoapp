@@ -11,4 +11,7 @@ export class CreateTodoDto {
   @IsOptional()
   @IsPositive()
   tagsId: number;
+  @IsNotEmpty()
+  @IsOptional()
+  done: boolean;
 }

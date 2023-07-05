@@ -27,17 +27,23 @@ export class TagsController {
   updateTag(
     @Body() updateTagDto: UpdateTagDto,
     @Req() req,
-    @Param() id: string,
+    @Param("id") id: string,
   ) {
     return this.tagsService.updateTag(updateTagDto, req, id);
   }
   @Get("allTags")
   @UseGuards(JwtAuthGuard)
-  allTags(@Req() req, @Query() take: string, @Query() skip: string) {
-    return this.tagsService.allTags(req, take, skip);
+  allTags(
+    @Req() req,
+    @Query("take") take: string,
+    @Query("skip") skip: string,
+    @Query("searsh") searsh: string,
+  ) {
+    return this.tagsService.allTags(req, take, skip, searsh);
   }
   @Get(":id")
-  tagById(@Req() req, @Param() id: string) {
+  @UseGuards(JwtAuthGuard)
+  tagById(@Req() req, @Param("id") id: string) {
     return this.tagsService.tagById(req, id);
   }
 }

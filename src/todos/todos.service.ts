@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { CreateTodoDto } from "./dtos/createTodo.dto";
 import { UpdateTodoDto } from "./dtos/updateTodo.dto";
@@ -7,6 +7,13 @@ import { UpdateTodoDto } from "./dtos/updateTodo.dto";
 export class TodosService {
   constructor(private prisma: PrismaService) {}
   async createTodo(createTodoDto: CreateTodoDto, req) {
+    const tag = createTodoDto.tagsId
+      ? await this.prisma.tags.findUnique({
+          where: { id: createTodoDto.tagsId },
+        })
+      : {};
+    if (!tag)
+      throw new HttpException("tag doesn't exist", HttpStatus.BAD_REQUEST);
     const todo = await this.prisma.todos.create({
       data: {
         ...createTodoDto,
@@ -32,11 +39,16 @@ export class TodosService {
     });
     return { message: "updated todo successfully", todo };
   }
-  async allTodos(take: string, skip: string, req) {
+  async allTodos(take: string, skip: string, req, searsh: string) {
     const todos = await this.prisma.todos.findMany({
-      where: { userId: parseInt(req.user.userId) },
-      take: parseInt(take),
-      skip: parseInt(skip),
+      take: take ? parseInt(take) : undefined,
+      skip: skip ? parseInt(skip) : undefined,
+      where: {
+        userId: parseInt(req.user.userId),
+        title: {
+          contains: searsh,
+        },
+      },
     });
     const count = await this.prisma.todos.count({});
     return { message: "retreived todos sucessfully", todos, count };

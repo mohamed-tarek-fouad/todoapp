@@ -9,4 +9,7 @@ export class UpdateTodoDto {
   @IsNotEmpty()
   @IsOptional()
   todo: string;
+  @IsNotEmpty()
+  @IsOptional()
+  done: boolean;
 }
