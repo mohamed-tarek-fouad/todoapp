@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsNotEmpty, IsOptional, MinLength } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 export class UpdateTodoDto {
   @MinLength(3)
   @IsNotEmpty()
@@ -8,8 +8,12 @@ export class UpdateTodoDto {
   @MinLength(3)
   @IsNotEmpty()
   @IsOptional()
-  todo: string;
+  discription: string;
   @IsNotEmpty()
   @IsOptional()
   done: boolean;
+  @IsNotEmpty()
+  @IsOptional()
+  @IsString()
+  dueDate: string;
 }

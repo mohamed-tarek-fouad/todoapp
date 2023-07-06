@@ -33,14 +33,15 @@ model Tags {
 }
 
 model Todos {
-  id     Int     @id @default(autoincrement())
-  title  String
-  userId Int
-  todo   String
-  user   Users   @relation(fields: [userId], references: [id])
-  Tags   Tags?   @relation(fields: [tagsId], references: [id])
-  tagsId Int?
-  done   Boolean @default(false)
+  id          Int       @id @default(autoincrement())
+  title       String
+  userId      Int
+  discription String
+  user        Users     @relation(fields: [userId], references: [id])
+  Tags        Tags?     @relation(fields: [tagsId], references: [id])
+  tagsId      Int?
+  done        Boolean   @default(false)
+  dueDate     DateTime?
 }
 
 model tokens {

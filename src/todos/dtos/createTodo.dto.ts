@@ -6,7 +6,7 @@ export class CreateTodoDto {
   title: string;
   @MinLength(3)
   @IsNotEmpty()
-  todo: string;
+  discription: string;
   @IsNotEmpty()
   @IsOptional()
   @IsPositive()
@@ -14,4 +14,7 @@ export class CreateTodoDto {
   @IsNotEmpty()
   @IsOptional()
   done: boolean;
+  @IsNotEmpty()
+  @IsOptional()
+  dueDate: string;
 }
